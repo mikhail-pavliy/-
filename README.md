@@ -1,16 +1,15 @@
-# -Управление процессами
+# Управление процессами
 
 # PID
 
-Конвейер команд:
-```bash
+ Конвейер команд:
+```ruby
 $ ls /proc | grep -P ^[0-9] | sort -n | xargs
 ```
-
 выведет все папки в /proc, содержищие pid запущенных процессов в системе. Далее нам необходимо обойти все эти папки, заглянуть в вышеописанные файлы и прочитать оттуда сведения о каждом процессе.
 
-TTY
-Смотрим в man, где описаны поля файла /proc/$pid/stat:
+# TTY
+Смотрим в man, где описаны поля файла ```/proc/$pid/stat``` :
 
 (7) tty_nr - The controlling terminal of the process. (The minor device number is contained in the combination of bits 31 to 20 and 7 to 0; the major device number is in bits 15 to 8.)
 
