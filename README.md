@@ -3,10 +3,13 @@
 # PID
 
  Конвейер команд:
-```ruby
-$ ls /proc | grep -P ^[0-9] | sort -n | xargs
-```
+
+ $ ls /proc | grep -P ^[0-9] | sort -n | xargs }
+
 выведет все папки в /proc, содержищие pid запущенных процессов в системе. Далее нам необходимо обойти все эти папки, заглянуть в вышеописанные файлы и прочитать оттуда сведения о каждом процессе.
+
+<div class="highlight highlight-source-shell"><pre>qq=<span class="pl-s"><span class="pl-pds">`</span>ls -l <span class="pl-smi">$procpid</span>/fd/ <span class="pl-k">|</span> grep -E <span class="pl-s"><span class="pl-pds">'</span>\/dev\/tty|pts<span class="pl-pds">'</span></span> <span class="pl-k">|</span> cut -d<span class="pl-cce">\/</span> -f3,4 <span class="pl-k">|</span> uniq<span class="pl-pds">`</span></span>
+Tty=<span class="pl-s"><span class="pl-pds">`</span>awk <span class="pl-s"><span class="pl-pds">'</span>{ if ($7 == 0) {printf "?"} else { printf "<span class="pl-pds">'</span></span><span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$qq</span><span class="pl-pds">"</span></span><span class="pl-s"><span class="pl-pds">'</span>" }}<span class="pl-pds">'</span></span> /proc/<span class="pl-smi">$pid</span>/stat<span class="pl-pds">`</span></span></pre></div>
 
 # TTY
 Смотрим в man, где описаны поля файла ```/proc/$pid/stat``` :
