@@ -8,14 +8,11 @@
 
 выведет все папки в /proc, содержищие pid запущенных процессов в системе. Далее нам необходимо обойти все эти папки, заглянуть в вышеописанные файлы и прочитать оттуда сведения о каждом процессе.
 
-<div class="highlight highlight-source-shell"><pre>qq=<span class="pl-s"><span class="pl-pds">`</span>ls -l <span class="pl-smi">$procpid</span>/fd/ <span class="pl-k">|</span> grep -E <span class="pl-s"><span class="pl-pds">'</span>\/dev\/tty|pts<span class="pl-pds">'</span></span> <span class="pl-k">|</span> cut -d<span class="pl-cce">\/</span> -f3,4 <span class="pl-k">|</span> uniq<span class="pl-pds">`</span></span>
-Tty=<span class="pl-s"><span class="pl-pds">`</span>awk <span class="pl-s"><span class="pl-pds">'</span>{ if ($7 == 0) {printf "?"} else { printf "<span class="pl-pds">'</span></span><span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">$qq</span><span class="pl-pds">"</span></span><span class="pl-s"><span class="pl-pds">'</span>" }}<span class="pl-pds">'</span></span> /proc/<span class="pl-smi">$pid</span>/stat<span class="pl-pds">`</span></span></pre></div>
-
 # TTY
 Смотрим в man, где описаны поля файла ```/proc/$pid/stat``` :
-
+```
 (7) tty_nr - The controlling terminal of the process. (The minor device number is contained in the combination of bits 31 to 20 and 7 to 0; the major device number is in bits 15 to 8.)
-
+```
 Если в этом поле есть какие либо сведения, отличные от 0, то выполняем листинг директории fd просматривая ее на предмет терминала tty или псевдотерминала pts.
 
 qq=`ls -l $procpid/fd/ | grep -E '\/dev\/tty|pts' | cut -d\/ -f3,4 | uniq`
