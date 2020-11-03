@@ -43,7 +43,8 @@ awk -v ticks="$(getconf CLK_TCK)" '{print strftime ("%M:%S", ($14+$15)/ticks)}' 
 ```
 # COMMAND
 Ну и наконец, сведения о парметрах запущенного процесса лежат в /proc/$pid/cmdline, man нам говорит:
-``` 
+
+```bash 
 This read-only file holds the complete command line for the process, unless the process is a zombie. In the latter case, there is nothing in this file: that is, a read on this file will return 0 characters. The command-line arguments appear in this file as a set of strings separated by null bytes ('\0'), with a further null byte after the last string. ```
 
 ```ruby
