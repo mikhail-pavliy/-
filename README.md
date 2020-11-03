@@ -1,7 +1,6 @@
 # Управление процессами
 
 # PID
-
  Конвейер команд:
 ```ruby
  $ ls /proc | grep -P ^[0-9] | sort -n | xargs }
@@ -19,7 +18,6 @@ qq=`ls -l $procpid/fd/ | grep -E '\/dev\/tty|pts' | cut -d\/ -f3,4 | uniq`
 Tty=`awk '{ if ($7 == 0) {printf "?"} else { printf "'"$qq"'" }}' /proc/$pid/stat`
 ```
 # STAT
-
 Так же в /proc/$pid/stat нас интересуют следующие сведения, которые мы вытащим с помощью awk (в коде скрипта $3, $6, $8, $19, $20), приводим их к порядку вывода ps (в скобках указан раздел в man, после значение флага):
 1. $3 - (3) state; - флаг состояния процесса - D,R,S,T,W,X,Z
 2. $19 - (19) nice; флаг приоритета 19 (low priority) to -20 (high priority); flags <,N,
@@ -45,7 +43,7 @@ awk -v ticks="$(getconf CLK_TCK)" '{print strftime ("%M:%S", ($14+$15)/ticks)}' 
 ```
 # COMMAND
 Ну и наконец, сведения о парметрах запущенного процесса лежат в /proc/$pid/cmdline, man нам говорит:
-```This read-only file holds the complete command line for the process, unless the process is a zombie. In the latter case, there is nothing in this file: that is, a read on this file will return 0 characters. The command-line arguments appear in this file as a set of strings separated by null bytes ('\0'), with a further null byte after the last string. ```
+``` This read-only file holds the complete command line for the process, unless the process is a zombie. In the latter case, there is nothing in this file: that is, a read on this file will return 0 characters. The command-line arguments appear in this file as a set of strings separated by null bytes ('\0'), with a further null byte after the last string. ```
 
 ```ruby
 Cmdline=`awk '{ print $1 }' $procpid/cmdline | sed 's/\x0/ /g'`
